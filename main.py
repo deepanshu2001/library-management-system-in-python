@@ -1,57 +1,68 @@
 class Library:
-    def __init__(self,listOfBooks):
-        self.books=listOfBooks
-    
-    def displayAvailableBooks(self):
-        print("Books present in the library are :")
-        for book in self.books:
-            print(book)
-    def borrowBook(self,bookName):
+    def __init__(self,library_name,listofbooks):
+        self.name=library_name
+        self.books=listofbooks
+        self.lendDict={}
+        
 
-        if bookName in self.books:
-            print(f"You have been issued {bookName}.Please return it within 45 days")
+    def library(self):
+        print(f"-------Welcome to {self.name} LIBRARY-------")
+    
+    def display_book(self):
+        print("The available books in the library are as follows!")
+        num=1
+        for book in self.books:
+            print(str(num)+"-"+book)
+            num +=1
+    def lend_book(self):
+        name=input("Enter the name of the borrower :")
+        bookName=input("Enter the book you need to borrow :")
+        
+        if bookName not in self.lendDict.keys():
+            print(f"The book {bookName} has been issued to you.Please return it in 45 days")
+            self.lendDict.update({bookName:name})
             self.books.remove(bookName)
         else:
-            print("Sorry,this book has already been isssued to someone else.Please wait until the book has been returned")
+            print(f"Sorry the following book is not available right now.This book is already been borrowed by {self.lendDict[bookName]}.Please come again in some time !")
 
-    def returnBook(self,bookName):
+    def add_book(self):
+        book_Name=input("Enter the book name you want to sell :")
+       
+        print(f"{book_Name} has been added the the library's book colection")
+        self.books.append(book_Name)
+    def return_book(self):
+        bookName=input("Enter the book name that you want to return :")
+        
+        print(f"{bookName} has been returned.Thank you for visiting the Library")
         self.books.append(bookName)
-        print("Thanks for returning the book")
 
 
-class Student:
-    def requestBook(self):
-        self.book=input("Enter the book you need to isuue :")
-        return self.book
- 
-    def returnBook(self):
-        self.book=input('Enter the name of the book you want to return :')
-        return self.book
-
+listofbooks=["python crash course","Hands on python","Python notes","Romeo and Juliet","HARRY POTTER","Tom and Jerry","Jerry and Juliet","Thompson","Kill Bill"]
+lib=Library("NEW STATE ",listofbooks)
 
 if __name__=="__main__":
-    centralLibrary=Library(["Algorithms","Django","Python crash course","fluent in python","automate the boring stuff in python","harry potter"])
-    
-    student=Student()
-
     while True:
-        welcomeMsg='''---Welcome to Central Library--- 
-        Please choose an option :
-        1. List all the books
-        2. Request a book
-        3. Return a book
-        4 .Exit the Library
-        '''
-        print(welcomeMsg)
-        a=int(input("Enter a choice :"))
-        if a==1:
-            centralLibrary.displayAvailableBooks()
-        elif a==2:
-            centralLibrary.borrowBook(student.requestBook())
-        elif a==3:
-            centralLibrary.returnBook(student.returnBook())
-        elif a==4:
-            print("Thanks for choosing central library.Have a great day ahead !")
+        lib.library()
+        msg='''Please choose an option
+             1. Display the available books
+             2. Borrow a book
+             3. To sell a book 
+             4. To return a book
+             5. To exit the library
+           '''
+        print(msg)
+        Option=int(input("Enter a option :"))
+        if Option==1:
+            lib.display_book()
+        elif Option==2:
+            lib.lend_book()
+        elif Option==3:
+            lib.add_book()
+        elif Option==4:
+            lib.return_book()
+        elif Option==5:
+            print("Thank you visiting us.Please visit again!")
             exit()
         else:
-            print("Invalid choice !")
+            print("Please choose a valid option")
+
